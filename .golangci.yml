@@ -1,0 +1,46 @@
+run:
+  timeout: 5m
+  tests: false
+
+issues:
+  exclude-dirs:
+    - vendor
+    - internal/api
+  exclude-use-default: true
+  exclude:
+    - "Error return value of .((os\\.)?std(out|err)\\..*|.*Close|.*Flush|os\\.Remove(All)?|.*print(f|ln)?|os\\.(Un)?Setenv). is not checked"
+    - "package-comments: should have a package comment"
+    - "exported: exported .* should have comment"
+
+linters:
+  enable:
+    - errcheck
+    - ineffassign
+    - govet
+    - misspell
+    - gocyclo
+    - goconst
+    - revive
+    - staticcheck
+    - gofmt
+    - goimports
+  disable:
+    - typecheck
+
+linters-settings:
+  gocyclo:
+    min-complexity: 25
+  
+  goconst:
+    min-len: 3
+    min-occurrences: 3
+  
+  revive:
+    rules:
+      - name: package-comments
+        disabled: true
+      - name: exported
+        disabled: true
+  
+  goimports:
+    local-prefixes: github.com/ppopeskul/insider-messenger

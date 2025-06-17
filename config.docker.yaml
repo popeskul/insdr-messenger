@@ -1,0 +1,40 @@
+server:
+  port: "8080"
+  read_timeout: 10
+  write_timeout: 10
+
+database:
+  host: postgres
+  port: 5432
+  user: insider
+  password: password
+  dbname: insider_db
+  sslmode: disable
+
+redis:
+  host: redis
+  port: 6379
+  password: ""
+  db: 0
+
+webhook:
+  url: https://webhook.site/6e479f4c-d00b-45fc-a0f6-22e8440a1861
+  auth_key: INS.me1x9uMcyYGlhKKQVPoc.bO3j9aZwRTOcA2Ywo
+  timeout: 30
+  circuit_breaker:
+    max_requests: 3
+    interval: 60
+    timeout: 60
+    failure_ratio: 0.6
+    consecutive_fails: 5
+
+scheduler:
+  interval_minutes: 2
+  batch_size: 2
+
+middleware:
+  rate_limit: 100
+  rate_limit_burst: 1000
+  enable_cors: true
+  allowed_origins:
+    - "*"

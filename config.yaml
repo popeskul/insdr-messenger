@@ -1,0 +1,40 @@
+server:
+  port: "8080"
+  read_timeout: 10
+  write_timeout: 10
+
+database:
+  host: ${DATABASE_HOST:-localhost}
+  port: ${DATABASE_PORT:-5432}
+  user: ${DATABASE_USER:-insider}
+  password: ${DATABASE_PASSWORD:-password}
+  dbname: ${DATABASE_DBNAME:-insider_db}
+  sslmode: ${DATABASE_SSLMODE:-disable}
+
+redis:
+  host: ${REDIS_HOST:-localhost}
+  port: ${REDIS_PORT:-6379}
+  password: ${REDIS_PASSWORD:-}
+  db: ${REDIS_DB:-0}
+
+webhook:
+  url: ${WEBHOOK_URL:-https://webhook.site/c3f13233-1ed4-429e-9649-8133b3b9c9cd}
+  auth_key: ${WEBHOOK_AUTH_KEY:-INS.me1x9uMcyYGlhKKQVPoc.bO3j9aZwRTOcA2Ywo}
+  timeout: ${WEBHOOK_TIMEOUT:-30}
+  circuit_breaker:
+    max_requests: ${CIRCUIT_BREAKER_MAX_REQUESTS:-3}
+    interval: ${CIRCUIT_BREAKER_INTERVAL:-60}
+    timeout: ${CIRCUIT_BREAKER_TIMEOUT:-60}
+    failure_ratio: ${CIRCUIT_BREAKER_FAILURE_RATIO:-0.6}
+    consecutive_fails: ${CIRCUIT_BREAKER_CONSECUTIVE_FAILS:-5}
+
+scheduler:
+  interval_minutes: ${SCHEDULER_INTERVAL:-2}
+  batch_size: ${SCHEDULER_BATCH_SIZE:-2}
+
+middleware:
+  rate_limit: ${MIDDLEWARE_RATE_LIMIT:-100}
+  rate_limit_burst: ${MIDDLEWARE_RATE_LIMIT_BURST:-1000}
+  enable_cors: ${MIDDLEWARE_ENABLE_CORS:-true}
+  allowed_origins:
+    - "*"

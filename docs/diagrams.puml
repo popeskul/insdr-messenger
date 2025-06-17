@@ -1,0 +1,74 @@
+@startuml message-flow
+!theme plain
+title Message Processing Flow
+
+participant "Scheduler" as S
+participant "Service" as SVC
+participant "PostgreSQL" as DB
+participant "Webhook" as W
+participant "Redis" as R
+
+loop Every 2 minutes
+    S -> SVC: Process messages
+    SVC -> DB: Get 2 pending messages
+    DB --> SVC: Messages
+    
+    loop For each message
+        SVC -> W: POST message
+        alt Success
+            W --> SVC: 200 OK + messageId
+            SVC -> DB: Update status='sent'
+            SVC -> R: Cache messageId
+        else Failure
+            W --> SVC: Error
+            SVC -> DB: Update status='failed'
+        end
+    end
+end
+@enduml
+
+@startuml api-flow
+!theme plain
+title API Request Flow
+
+actor Client
+participant "API" as API
+participant "Service" as SVC
+participant "Database" as DB
+
+== Get Sent Messages ==
+Client -> API: GET /messages/sent
+API -> SVC: GetSentMessages()
+SVC -> DB: Query sent messages
+DB --> SVC: Messages list
+SVC --> API: Format response
+API --> Client: JSON response
+
+== Control Scheduler ==
+Client -> API: POST /scheduler/start
+API -> SVC: StartScheduler()
+SVC --> API: Success
+API --> Client: {"status": "started"}
+@enduml
+
+@startuml architecture
+!theme plain
+title System Architecture
+
+package "Docker Containers" {
+    component [Go App\n:8080] as APP
+    database "PostgreSQL\n:5432" as PG
+    database "Redis\n:6379" as REDIS
+}
+
+cloud "External" {
+    component [Webhook] as WH
+}
+
+actor User
+
+User --> APP: HTTP Requests
+APP --> PG: SQL Queries
+APP --> REDIS: Cache
+APP --> WH: Send Messages
+@enduml

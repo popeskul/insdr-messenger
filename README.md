@@ -2,6 +2,8 @@
 
 Automatic message sending system that processes messages from PostgreSQL and sends them via webhook every 2 minutes.
 
+> 🚀 **New to the project?** Check out our [Beginner's Quick Start Guide](QUICKSTART.md) for a 5-minute setup!
+
 ## Table of Contents
 - [Quick Start](#quick-start)
 - [Architecture](#architecture)

@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "Starting Insider Messenger..."
+echo "Starting Insdr Messenger..."
 
 # Always check if migrations table exists and run migrations if needed
 if [ -n "$DATABASE_URL" ] || [ -n "$DATABASE_HOST" ]; then
@@ -12,7 +12,7 @@ if [ -n "$DATABASE_URL" ] || [ -n "$DATABASE_HOST" ]; then
     
     echo "Checking database migrations..."
     # Wait for database to be ready
-    until PGPASSWORD=$DATABASE_PASSWORD psql -h "${DATABASE_HOST:-postgres}" -U "${DATABASE_USER:-insider}" -d "${DATABASE_DBNAME:-insider_db}" -c '\q' 2>/dev/null; do
+    until PGPASSWORD=$DATABASE_PASSWORD psql -h "${DATABASE_HOST:-postgres}" -U "${DATABASE_USER:-insdr}" -d "${DATABASE_DBNAME:-insdr_db}" -c '\q' 2>/dev/null; do
         echo "Waiting for database..."
         sleep 2
     done
@@ -25,4 +25,4 @@ if [ -n "$DATABASE_URL" ] || [ -n "$DATABASE_HOST" ]; then
 fi
 
 # Start the application
-exec /app/insider-messenger "$@"
+exec /app/insdr-messenger "$@"

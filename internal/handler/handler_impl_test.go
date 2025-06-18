@@ -9,12 +9,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ppopeskul/insider-messenger/internal/api"
-	"github.com/ppopeskul/insider-messenger/internal/handler"
-	"github.com/ppopeskul/insider-messenger/internal/middleware"
-	"github.com/ppopeskul/insider-messenger/internal/scheduler"
-	"github.com/ppopeskul/insider-messenger/internal/service"
-	"github.com/ppopeskul/insider-messenger/internal/service/mocks"
+	"github.com/popeskul/insdr-messenger/internal/api"
+	"github.com/popeskul/insdr-messenger/internal/handler"
+	"github.com/popeskul/insdr-messenger/internal/middleware"
+	"github.com/popeskul/insdr-messenger/internal/scheduler"
+	"github.com/popeskul/insdr-messenger/internal/service"
+	"github.com/popeskul/insdr-messenger/internal/service/mocks"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/mock/gomock"
 	"go.uber.org/zap"
@@ -31,7 +31,7 @@ func TestHandler_StartScheduler(t *testing.T) {
 			name: "success",
 			setupMocks: func(m *mocks.MockSchedulerService) {
 				m.EXPECT().Start().Return(nil)
-			},			expectedStatus: http.StatusOK,
+			}, expectedStatus: http.StatusOK,
 			expectedBody: func(t *testing.T, body []byte) {
 				var resp api.SchedulerResponse
 				err := json.Unmarshal(body, &resp)
@@ -60,7 +60,8 @@ func TestHandler_StartScheduler(t *testing.T) {
 				m.EXPECT().Start().Return(errors.New("internal error"))
 			},
 			expectedStatus: http.StatusInternalServerError,
-			expectedBody: func(t *testing.T, body []byte) {				var resp api.ErrorResponse
+			expectedBody: func(t *testing.T, body []byte) {
+				var resp api.ErrorResponse
 				err := json.Unmarshal(body, &resp)
 				assert.NoError(t, err)
 				assert.Equal(t, middleware.ErrorCodeInternal, resp.Error)
@@ -120,7 +121,7 @@ func TestHandler_StopScheduler(t *testing.T) {
 			name: "scheduler not running",
 			setupMocks: func(m *mocks.MockSchedulerService) {
 				m.EXPECT().Stop().Return(scheduler.ErrSchedulerNotRunning)
-			},			expectedStatus: http.StatusConflict,
+			}, expectedStatus: http.StatusConflict,
 			expectedBody: func(t *testing.T, body []byte) {
 				var resp api.ErrorResponse
 				err := json.Unmarshal(body, &resp)
@@ -181,7 +182,7 @@ func TestHandler_GetSentMessages(t *testing.T) {
 	}{
 		{
 			name:   "success with defaults",
-			params: api.GetSentMessagesParams{},			setupMocks: func(m *mocks.MockMessageService) {
+			params: api.GetSentMessagesParams{}, setupMocks: func(m *mocks.MockMessageService) {
 				m.EXPECT().GetSentMessages(1, 20).Return(&api.MessageListResponse{
 					Messages: []api.Message{
 						{
@@ -239,7 +240,7 @@ func TestHandler_GetSentMessages(t *testing.T) {
 		},
 		{
 			name:   "internal error",
-			params: api.GetSentMessagesParams{},			setupMocks: func(m *mocks.MockMessageService) {
+			params: api.GetSentMessagesParams{}, setupMocks: func(m *mocks.MockMessageService) {
 				m.EXPECT().GetSentMessages(1, 20).Return(nil, errors.New("database error"))
 			},
 			expectedStatus: http.StatusInternalServerError,
@@ -298,7 +299,7 @@ func TestHandler_HealthCheck(t *testing.T) {
 					CircuitBreakerState:  api.HealthResponseCircuitBreakerState("closed"),
 				})
 			},
-			expectedStatus: http.StatusOK,			expectedBody: func(t *testing.T, body []byte) {
+			expectedStatus: http.StatusOK, expectedBody: func(t *testing.T, body []byte) {
 				var resp api.HealthResponse
 				err := json.Unmarshal(body, &resp)
 				assert.NoError(t, err)

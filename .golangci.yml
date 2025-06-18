@@ -1,16 +1,24 @@
 run:
   timeout: 5m
   tests: false
+  modules-download-mode: readonly
+  go: '1.23'
 
 issues:
   exclude-dirs:
     - vendor
-    - internal/api
+  exclude-files:
+    - internal/api/openapi.gen.go
   exclude-use-default: true
   exclude:
     - "Error return value of .((os\\.)?std(out|err)\\..*|.*Close|.*Flush|os\\.Remove(All)?|.*print(f|ln)?|os\\.(Un)?Setenv). is not checked"
     - "package-comments: should have a package comment"
     - "exported: exported .* should have comment"
+  exclude-rules:
+    # Exclude typecheck issues for generated files
+    - path: internal/api/openapi.gen.go
+      linters:
+        - typecheck
 
 linters:
   enable:
@@ -24,8 +32,8 @@ linters:
     - staticcheck
     - gofmt
     - goimports
-  disable:
     - typecheck
+  disable: []
 
 linters-settings:
   gocyclo:
@@ -43,4 +51,4 @@ linters-settings:
         disabled: true
   
   goimports:
-    local-prefixes: github.com/ppopeskul/insider-messenger
+    local-prefixes: github.com/popeskul/insdr-messenger

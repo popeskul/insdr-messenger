@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ppopeskul/insider-messenger/internal/scheduler"
+	"github.com/popeskul/insdr-messenger/internal/scheduler"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/zap"
 )

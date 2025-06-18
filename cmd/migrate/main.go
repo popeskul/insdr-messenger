@@ -1,4 +1,4 @@
-// Package main implements database migration utility for the insider-messenger service.
+// Package main implements database migration utility for the insdr-messenger service.
 package main
 
 import (

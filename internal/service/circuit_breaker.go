@@ -10,8 +10,8 @@ import (
 	"github.com/sony/gobreaker"
 	"go.uber.org/zap"
 
-	"github.com/ppopeskul/insider-messenger/internal/api"
-	"github.com/ppopeskul/insider-messenger/internal/config"
+	"github.com/popeskul/insdr-messenger/internal/api"
+	"github.com/popeskul/insdr-messenger/internal/config"
 )
 
 type CircuitBreaker struct {

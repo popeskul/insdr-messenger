@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/ppopeskul/insider-messenger/internal/infrastructure/migrate"
+	"github.com/popeskul/insdr-messenger/internal/infrastructure/migrate"
 )
 
 // MockRunner implements a test version of migration runner
@@ -33,11 +33,11 @@ func (m *MockRunner) Version() (uint, bool, error) {
 
 func TestMigrations(t *testing.T) {
 	tests := []struct {
-		name          string
-		runner        *MockRunner
-		operation     func(*MockRunner) error
-		checkVersion  func(uint, bool, error) error
-		wantErr       bool
+		name         string
+		runner       *MockRunner
+		operation    func(*MockRunner) error
+		checkVersion func(uint, bool, error) error
+		wantErr      bool
 	}{
 		{
 			name:   "Run migrations successfully",
@@ -132,7 +132,7 @@ func TestMigrations(t *testing.T) {
 			DatabaseURL:    "postgres://test:test@localhost/test",
 			MigrationsPath: "../../../migrations",
 		}
-		
+
 		runner := migrate.NewRunner(config)
 		if runner == nil {
 			t.Fatal("Expected runner to be created")

@@ -6,9 +6,9 @@ server:
 database:
   host: ${DATABASE_HOST:-postgres}
   port: ${DATABASE_PORT:-5432}
-  user: ${DATABASE_USER:-insider}
+  user: ${DATABASE_USER:-insdr}
   password: ${DATABASE_PASSWORD:-password}
-  dbname: ${DATABASE_DBNAME:-insider_db}
+  dbname: ${DATABASE_DBNAME:-insdr_db}
   sslmode: ${DATABASE_SSLMODE:-require}
 
 redis:

@@ -4,8 +4,8 @@ import (
 	"github.com/go-redis/redis/v8"
 	"go.uber.org/zap"
 
-	"github.com/ppopeskul/insider-messenger/internal/config"
-	"github.com/ppopeskul/insider-messenger/internal/repository"
+	"github.com/popeskul/insdr-messenger/internal/config"
+	"github.com/popeskul/insdr-messenger/internal/repository"
 )
 
 type Service struct {

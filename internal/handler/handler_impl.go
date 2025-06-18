@@ -9,10 +9,10 @@ import (
 	"github.com/go-chi/render"
 	"go.uber.org/zap"
 
-	"github.com/ppopeskul/insider-messenger/internal/api"
-	"github.com/ppopeskul/insider-messenger/internal/middleware"
-	"github.com/ppopeskul/insider-messenger/internal/scheduler"
-	"github.com/ppopeskul/insider-messenger/internal/service"
+	"github.com/popeskul/insdr-messenger/internal/api"
+	"github.com/popeskul/insdr-messenger/internal/middleware"
+	"github.com/popeskul/insdr-messenger/internal/scheduler"
+	"github.com/popeskul/insdr-messenger/internal/service"
 )
 
 const (

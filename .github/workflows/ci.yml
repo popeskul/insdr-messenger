@@ -14,9 +14,9 @@ jobs:
       postgres:
         image: postgres:15-alpine
         env:
-          POSTGRES_USER: insider
+          POSTGRES_USER: insdr
           POSTGRES_PASSWORD: password
-          POSTGRES_DB: insider_db
+          POSTGRES_DB: insdr_db
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -70,23 +70,23 @@ jobs:
     
     - name: Run migrations up
       run: |
-        migrate -path migrations -database "postgres://insider:password@localhost:5432/insider_db?sslmode=disable" up
+        migrate -path migrations -database "postgres://insdr:password@localhost:5432/insdr_db?sslmode=disable" up
     
     - name: Check migration status
       run: |
-        migrate -path migrations -database "postgres://insider:password@localhost:5432/insider_db?sslmode=disable" version
+        migrate -path migrations -database "postgres://insdr:password@localhost:5432/insdr_db?sslmode=disable" version
     
     - name: Run tests
       run: go test -v ./...
       env:
-        DATABASE_URL: postgres://insider:password@localhost:5432/insider_db?sslmode=disable
+        DATABASE_URL: postgres://insdr:password@localhost:5432/insdr_db?sslmode=disable
         REDIS_URL: redis://localhost:6379
     
     # Test migration rollback
     - name: Test migration down
       run: |
-        migrate -path migrations -database "postgres://insider:password@localhost:5432/insider_db?sslmode=disable" down -all
-        migrate -path migrations -database "postgres://insider:password@localhost:5432/insider_db?sslmode=disable" up
+        migrate -path migrations -database "postgres://insdr:password@localhost:5432/insdr_db?sslmode=disable" down -all
+        migrate -path migrations -database "postgres://insdr:password@localhost:5432/insdr_db?sslmode=disable" up
 
   build:
     needs: test
@@ -104,6 +104,6 @@ jobs:
       with:
         context: .
         push: false
-        tags: insider-messenger:${{ github.sha }}
+        tags: insdr-messenger:${{ github.sha }}
         cache-from: type=gha
         cache-to: type=gha,mode=max

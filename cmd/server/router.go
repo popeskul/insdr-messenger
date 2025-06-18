@@ -5,7 +5,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
-	"github.com/ppopeskul/insider-messenger/internal/api"
+	"github.com/popeskul/insdr-messenger/internal/api"
 )
 
 func setupRouter(handler api.ServerInterface) http.Handler {

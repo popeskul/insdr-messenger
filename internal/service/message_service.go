@@ -11,10 +11,10 @@ import (
 	"github.com/go-redis/redis/v8"
 	"go.uber.org/zap"
 
-	"github.com/ppopeskul/insider-messenger/internal/api"
-	"github.com/ppopeskul/insider-messenger/internal/config"
-	"github.com/ppopeskul/insider-messenger/internal/models"
-	"github.com/ppopeskul/insider-messenger/internal/repository"
+	"github.com/popeskul/insdr-messenger/internal/api"
+	"github.com/popeskul/insdr-messenger/internal/config"
+	"github.com/popeskul/insdr-messenger/internal/models"
+	"github.com/popeskul/insdr-messenger/internal/repository"
 )
 
 type messageService struct {

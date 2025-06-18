@@ -9,8 +9,8 @@ If you don't have Docker:
 
 ### Step 2: Get the Code
 ```bash
-git clone https://github.com/ppopeskul/insider-messenger.git
-cd insider-messenger
+git clone https://github.com/ppopeskul/insdr-messenger.git
+cd insdr-messenger
 ```
 
 ### Step 3: Configure Webhook (IMPORTANT!)
@@ -24,19 +24,8 @@ webhook:
 
 ### Step 4: Start Everything
 ```bash
-docker-compose up -d
-```
-
-### Step 5: Add Test Messages
-```bash
-# Add 5 test messages
-docker-compose exec postgres psql -U insider -d insider_db -c "
-INSERT INTO messages (phone_number, content) VALUES 
-('+1234567890', 'Hello World'),
-('+1234567891', 'Test Message'),
-('+1234567892', 'Insider Demo'),
-('+1234567893', 'Automatic Send'),
-('+1234567894', 'It Works!');"
+make dev
+make db-seed
 ```
 
 ## ✅ Verify It's Working

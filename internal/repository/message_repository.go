@@ -7,8 +7,8 @@ import (
 
 	"github.com/jmoiron/sqlx"
 
-	"github.com/ppopeskul/insider-messenger/internal/api"
-	"github.com/ppopeskul/insider-messenger/internal/models"
+	"github.com/popeskul/insdr-messenger/internal/api"
+	"github.com/popeskul/insdr-messenger/internal/models"
 )
 
 type messageRepository struct {

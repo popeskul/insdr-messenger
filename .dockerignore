@@ -13,7 +13,7 @@
 Thumbs.db
 
 # Build artifacts
-insider-messenger
+insdr-messenger
 bin/
 dist/
 

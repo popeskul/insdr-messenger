@@ -1,6 +1,6 @@
 package service
 
-import "github.com/ppopeskul/insider-messenger/internal/api"
+import "github.com/popeskul/insdr-messenger/internal/api"
 
 type HealthStatus struct {
 	Status               api.HealthResponseStatus              `json:"status"`

@@ -20,7 +20,7 @@ go.work
 # Binary output
 bin/
 main
-insider-messenger
+insdr-messenger
 
 # IDE specific files
 .idea/
@@ -44,17 +44,5 @@ Thumbs.db
 # Log files
 *.log
 
-# Generated files
-internal/api/openapi.gen.go
-
-# Swagger UI downloaded files (keep only index.html)
-static/swagger-ui/*.js
-static/swagger-ui/*.css
-static/swagger-ui/*.png
-static/swagger-ui/*.map
-
 # Migration backup files
 *.sql.bak
-
-# Tools
-.tools/

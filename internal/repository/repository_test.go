@@ -6,7 +6,7 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
-	"github.com/ppopeskul/insider-messenger/internal/repository"
+	"github.com/popeskul/insdr-messenger/internal/repository"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -38,14 +38,14 @@ func TestRepositoryImpl_Message_Success(t *testing.T) {
 			name: "Message repository methods are callable",
 			validate: func(t *testing.T, repo repository.Repository) {
 				messageRepo := repo.Message()
-				
+
 				_, err := messageRepo.GetUnsentMessages(10)
 				assert.NoError(t, err)
-				
+
 				count, err := messageRepo.GetTotalSentCount()
 				assert.NoError(t, err)
 				assert.GreaterOrEqual(t, count, int64(0))
-				
+
 				_, err = messageRepo.GetSentMessages(0, 10)
 				assert.NoError(t, err)
 			},
@@ -54,10 +54,10 @@ func TestRepositoryImpl_Message_Success(t *testing.T) {
 			name: "Message repository can create messages",
 			validate: func(t *testing.T, repo repository.Repository) {
 				messageRepo := repo.Message()
-				
+
 				err := messageRepo.CreateMessage("+1234567890", "Test message from repository test")
 				assert.NoError(t, err)
-				
+
 				messages, err := messageRepo.GetUnsentMessages(10)
 				assert.NoError(t, err)
 				assert.Len(t, messages, 1)
@@ -71,7 +71,7 @@ func TestRepositoryImpl_Message_Success(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			repo := repository.NewRepository(db)
 			tt.validate(t, repo)
-			
+
 			_, err := db.Exec("TRUNCATE TABLE messages RESTART IDENTITY CASCADE")
 			require.NoError(t, err)
 		})
@@ -80,8 +80,8 @@ func TestRepositoryImpl_Message_Success(t *testing.T) {
 
 func TestRepositoryImpl_Message_Failure(t *testing.T) {
 	tests := []struct {
-		name          string
-		setupDB       func() *sqlx.DB
+		name    string
+		setupDB func() *sqlx.DB
 	}{
 		{
 			name: "Repository with closed database connection",
@@ -99,7 +99,7 @@ func TestRepositoryImpl_Message_Failure(t *testing.T) {
 			repo := repository.NewRepository(db)
 			messageRepo := repo.Message()
 			assert.NotNil(t, messageRepo)
-			
+
 			_, err := messageRepo.GetUnsentMessages(10)
 			assert.Error(t, err)
 			assert.Contains(t, err.Error(), "database is closed")
@@ -124,7 +124,7 @@ func TestRepositoryImpl_Ping_Success(t *testing.T) {
 			},
 		},
 		{
-			name: "Multiple pings in succession",
+			name:  "Multiple pings in succession",
 			setup: func() {},
 			validate: func(t *testing.T, err error) {
 				assert.NoError(t, err)
@@ -145,12 +145,12 @@ func TestRepositoryImpl_Ping_Success(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			repo := repository.NewRepository(db)
-			
+
 			tt.setup()
-			
+
 			err := repo.Ping()
 			tt.validate(t, err)
-			
+
 			if tt.name == "Multiple pings in succession" {
 				for i := 0; i < 5; i++ {
 					err := repo.Ping()
@@ -195,7 +195,7 @@ func TestRepositoryImpl_Ping_Failure(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			repo := tt.setupRepo()
-			
+
 			done := make(chan bool)
 			go func() {
 				err := repo.Ping()
@@ -205,7 +205,7 @@ func TestRepositoryImpl_Ping_Failure(t *testing.T) {
 				}
 				done <- true
 			}()
-			
+
 			select {
 			case <-done:
 			case <-time.After(tt.timeout):
@@ -218,11 +218,11 @@ func TestRepositoryImpl_Ping_Failure(t *testing.T) {
 func BenchmarkRepository_Ping(b *testing.B) {
 	db, cleanup := setupTestDB(&testing.T{})
 	defer cleanup()
-	
+
 	repo := repository.NewRepository(db)
-	
+
 	b.ResetTimer()
-	
+
 	for i := 0; i < b.N; i++ {
 		err := repo.Ping()
 		if err != nil {
@@ -234,11 +234,11 @@ func BenchmarkRepository_Ping(b *testing.B) {
 func BenchmarkRepository_MessageAccess(b *testing.B) {
 	db, cleanup := setupTestDB(&testing.T{})
 	defer cleanup()
-	
+
 	repo := repository.NewRepository(db)
-	
+
 	b.ResetTimer()
-	
+
 	for i := 0; i < b.N; i++ {
 		messageRepo := repo.Message()
 		if messageRepo == nil {

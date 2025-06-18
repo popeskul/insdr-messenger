@@ -1,4 +1,4 @@
-// Package main is the entry point for the insider-messenger HTTP server.
+// Package main is the entry point for the insdr-messenger HTTP server.
 package main
 
 import (
@@ -16,11 +16,11 @@ import (
 	"go.uber.org/zap"
 	"golang.org/x/time/rate"
 
-	"github.com/ppopeskul/insider-messenger/internal/config"
-	"github.com/ppopeskul/insider-messenger/internal/handler"
-	"github.com/ppopeskul/insider-messenger/internal/middleware"
-	"github.com/ppopeskul/insider-messenger/internal/repository"
-	"github.com/ppopeskul/insider-messenger/internal/service"
+	"github.com/popeskul/insdr-messenger/internal/config"
+	"github.com/popeskul/insdr-messenger/internal/handler"
+	"github.com/popeskul/insdr-messenger/internal/middleware"
+	"github.com/popeskul/insdr-messenger/internal/repository"
+	"github.com/popeskul/insdr-messenger/internal/service"
 )
 
 func main() {

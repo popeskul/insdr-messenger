@@ -1,6 +1,6 @@
 DOCKER_COMPOSE = docker-compose
-DB_USER = insider
-DB_NAME = insider_db
+DB_USER = insdr
+DB_NAME = insdr_db
 DB_HOST = localhost
 DB_PORT = 5432
 DB_PASSWORD = password
@@ -22,7 +22,7 @@ help: ## Show this help message
 .PHONY: info
 info: ## Show project information and status
 	@echo "======================================"
-	@echo "   INSIDER MESSENGER"
+	@echo "   INSDR MESSENGER"
 	@echo "======================================"
 	@echo ""
 	@echo "📦 Project: Automatic Message Sending System"
@@ -34,7 +34,7 @@ info: ## Show project information and status
 	@echo "   Docker Compose: $(shell docker-compose --version 2>/dev/null | cut -d' ' -f4 || echo '✗ not installed')"
 	@echo ""
 	@echo "🚀 Services Status:"
-	@if docker-compose ps 2>/dev/null | grep -q "insider-messenger"; then \
+	@if docker-compose ps 2>/dev/null | grep -q "insdr-messenger"; then \
 		echo "   PostgreSQL: $$(docker-compose ps postgres 2>/dev/null | grep -q "healthy" && echo "✓ running (healthy)" || echo "⚠ running")"; \
 		echo "   Redis: $$(docker-compose ps redis 2>/dev/null | grep -q "healthy" && echo "✓ running (healthy)" || echo "⚠ running")"; \
 		echo "   App: $$(docker-compose ps app 2>/dev/null | grep -q "healthy" && echo "✓ running (healthy)" || echo "⚠ running")"; \
@@ -44,11 +44,11 @@ info: ## Show project information and status
 	@echo ""
 	@echo "🗄️  Database:"
 	@echo "   Host: localhost:5432"
-	@echo "   Name: insider_db"
-	@echo "   User: insider"
+	@echo "   Name: insdr_db"
+	@echo "   User: insdr"
 	@if docker-compose ps 2>/dev/null | grep -q "postgres.*healthy"; then \
-		echo "   Migration Status: $$(docker run --rm --network insider-messenger_default -v $(PWD)/migrations:/migrations migrate/migrate:v4.17.0 -path=/migrations -database="postgres://insider:password@postgres:5432/insider_db?sslmode=disable" version 2>/dev/null || echo "unknown")"; \
-		echo "   Messages Count: $$(echo "SELECT count(*) FROM messages;" | docker-compose exec -T postgres psql -U insider -d insider_db -t 2>/dev/null || echo "unknown")"; \
+		echo "   Migration Status: $$(docker run --rm --network insdr-messenger_default -v $(PWD)/migrations:/migrations migrate/migrate:v4.17.0 -path=/migrations -database="postgres://insdr:password@postgres:5432/insdr_db?sslmode=disable" version 2>/dev/null || echo "unknown")"; \
+		echo "   Messages Count: $$(echo "SELECT count(*) FROM messages;" | docker-compose exec -T postgres psql -U insdr -d insdr_db -t 2>/dev/null || echo "unknown")"; \
 	fi
 	@echo ""
 	@echo "📡 API Endpoints:"
@@ -78,7 +78,7 @@ status: ## Show quick services status
 .PHONY: about
 about: ## Show project description
 	@echo ""
-	@echo "🚀 INSIDER MESSENGER - Automatic Message Sending System"
+	@echo "🚀 INSDR MESSENGER - Automatic Message Sending System"
 	@echo ""
 	@echo "A production-ready Go service that:"
 	@echo "  • Sends messages automatically every 2 minutes"
@@ -117,11 +117,11 @@ down: ## Stop all services
 .PHONY: start
 start: ## Start all services quietly
 	@$(DOCKER_COMPOSE) up -d --wait > /dev/null 2>&1
-	@docker run --rm --network insider-messenger_default \
+	@docker run --rm --network insdr-messenger_default \
 		-v $(PWD)/migrations:/migrations \
 		migrate/migrate:v4.17.0 \
 		-path=/migrations \
-		-database="postgres://insider:password@postgres:5432/insider_db?sslmode=disable" \
+		-database="postgres://insdr:password@postgres:5432/insdr_db?sslmode=disable" \
 		up > /dev/null 2>&1 || true
 	@echo "✅ Services started"
 
@@ -145,7 +145,12 @@ dev: ## Start development (up + migrate) in detached mode
 	@echo "   - View logs: make logs"
 	@echo "   - Check status: make status"
 	@echo "   - Stop services: make down"
+	@echo "   - Seed database: make db-seed"
 	@echo ""
+
+.PHONY: dev-seed
+dev-seed: dev db-seed ## Start development with seeded database
+	@echo "✅ Development environment is running with seeded data!"
 
 .PHONY: dev-logs
 dev-logs: ## Start development with logs attached
@@ -173,7 +178,7 @@ destroy: ## Completely remove everything (containers, images, volumes, networks)
 	@echo "Removing containers and volumes..."
 	@$(DOCKER_COMPOSE) down -v --remove-orphans || true
 	@echo "Removing images..."
-	@docker rmi insider-messenger-app:latest 2>/dev/null || true
+	@docker rmi insdr-messenger-app:latest 2>/dev/null || true
 	@docker rmi $$(docker images -q postgres:15-alpine) 2>/dev/null || true
 	@docker rmi $$(docker images -q redis:7-alpine) 2>/dev/null || true
 	@docker rmi $$(docker images -q migrate/migrate:v4.17.0) 2>/dev/null || true
@@ -187,7 +192,7 @@ destroy: ## Completely remove everything (containers, images, volumes, networks)
 clean-docker: ## Clean Docker resources (containers, volumes, images)
 	@echo "Cleaning Docker resources..."
 	@$(DOCKER_COMPOSE) down -v --remove-orphans 2>/dev/null || true
-	@docker rmi insider-messenger-app:latest 2>/dev/null || true
+	@docker rmi insdr-messenger-app:latest 2>/dev/null || true
 	@echo "Docker resources cleaned"
 
 .PHONY: logs
@@ -216,21 +221,21 @@ rebuild: down ## Rebuild and start services
 .PHONY: migrate
 migrate: ## Run all pending migrations
 	@echo "Running migrations..."
-	@docker run --rm --network insider-messenger_default \
+	@docker run --rm --network insdr-messenger_default \
 		-v $(PWD)/migrations:/migrations \
 		migrate/migrate:v4.17.0 \
 		-path=/migrations \
-		-database="postgres://insider:password@postgres:5432/insider_db?sslmode=disable" \
+		-database="postgres://insdr:password@postgres:5432/insdr_db?sslmode=disable" \
 		up
 
 .PHONY: migrate-down
 migrate-down:
 	@echo "Rolling back last migration..."
-	@docker run --rm --network insider-messenger_default \
+	@docker run --rm --network insdr-messenger_default \
 		-v $(PWD)/migrations:/migrations \
 		migrate/migrate:v4.17.0 \
 		-path=/migrations \
-		-database="postgres://insider:password@postgres:5432/insider_db?sslmode=disable" \
+		-database="postgres://insdr:password@postgres:5432/insdr_db?sslmode=disable" \
 		down 1
 
 .PHONY: migrate-new
@@ -245,11 +250,11 @@ migrate-new: ## Create new migration (usage: make migrate-new name=create_users)
 .PHONY: migrate-status
 migrate-status:
 	@echo "Checking migration status..."
-	@docker run --rm --network insider-messenger_default \
+	@docker run --rm --network insdr-messenger_default \
 		-v $(PWD)/migrations:/migrations \
 		migrate/migrate:v4.17.0 \
 		-path=/migrations \
-		-database="postgres://insider:password@postgres:5432/insider_db?sslmode=disable" \
+		-database="postgres://insdr:password@postgres:5432/insdr_db?sslmode=disable" \
 		version
 
 # === BUILD & TEST COMMANDS ===
@@ -306,10 +311,21 @@ fmt:
 
 .PHONY: lint
 lint:
-	@./.tools/golangci-lint run ./...
+	@if [ ! -f ./.tools/golangci-lint ]; then \
+		echo "⚠️  golangci-lint not found. Installing tools..."; \
+		$(MAKE) install-tools; \
+	fi
+	@echo "🔍 Running golangci-lint..."
+	@./.tools/golangci-lint run ./... && echo "✅ Linting passed! No issues found."
 
-.PHONY: tidy
-tidy:
+.PHONY: lint-verbose
+lint-verbose: ## Run linter with verbose output
+	@if [ ! -f ./.tools/golangci-lint ]; then \
+		echo "⚠️  golangci-lint not found. Installing tools..."; \
+		$(MAKE) install-tools; \
+	fi
+	@echo "🔍 Running golangci-lint (verbose mode)..."
+	@./.tools/golangci-lint run -v ./...
 	@go mod tidy
 
 .PHONY: tidy-docker
@@ -333,7 +349,7 @@ db-seed: ## Seed database with test data
 
 .PHONY: clean
 clean: ## Clean build artifacts
-	@rm -f insider-messenger
+	@rm -f insdr-messenger
 	@rm -f coverage.out
 
 .PHONY: install-tools
@@ -341,10 +357,12 @@ install-tools: ## Install required tools (migrate, golangci-lint)
 	@echo "Installing migrate tool..."
 	@go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.17.0 || echo "Failed to install migrate"
 	@echo "Installing golangci-lint..."
-	@if command -v brew >/dev/null 2>&1; then \
-		brew install golangci-lint 2>/dev/null || brew upgrade golangci-lint 2>/dev/null || echo "golangci-lint might already be installed"; \
+	@mkdir -p .tools
+	@if [ ! -f ./.tools/golangci-lint ]; then \
+		echo "Downloading golangci-lint binary..."; \
+		curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b ./.tools v1.62.2; \
 	else \
-		go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.55.2 || echo "Failed to install golangci-lint"; \
+		echo "golangci-lint already installed in .tools/"; \
 	fi
 
 # === SWAGGER COMMANDS ===

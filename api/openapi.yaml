@@ -1,11 +1,11 @@
 openapi: 3.0.3
 info:
-  title: Insider Messenger API
+  title: Insdr Messenger API
   description: Automatic message sending system with scheduling capabilities
   version: 1.0.0
   contact:
     name: API Support
-    email: support@insider.com
+    email: support@insdr.com
 
 servers:
   - url: http://localhost:8080
@@ -175,7 +175,7 @@ components:
           type: string
           description: Message content
           maxLength: 160
-          example: "Insider - Project"
+          example: "Insdr - Project"
         sent_at:
           type: string
           format: date-time

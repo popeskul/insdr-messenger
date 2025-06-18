@@ -35,12 +35,12 @@ FROM alpine:latest
 RUN apk --no-cache add ca-certificates bash postgresql-client curl
 
 # Create non-root user
-RUN addgroup -g 1000 -S insider && \
-    adduser -u 1000 -S insider -G insider
+RUN addgroup -g 1000 -S insdr && \
+    adduser -u 1000 -S insdr -G insdr
 WORKDIR /app
 
 # Copy the binary from builder
-COPY --from=builder /app/main /app/insider-messenger
+COPY --from=builder /app/main /app/insdr-messenger
 COPY --from=builder /go/bin/migrate /usr/local/bin/migrate
 
 # Copy configuration and migrations
@@ -53,10 +53,10 @@ COPY static/ /app/static/
 RUN chmod +x /app/entrypoint.sh
 
 # Change ownership
-RUN chown -R insider:insider /app
+RUN chown -R insdr:insdr /app
 
 # Switch to non-root user
-USER insider
+USER insdr
 
 # Expose port
 EXPOSE 8080

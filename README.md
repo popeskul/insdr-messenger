@@ -1,4 +1,4 @@
-# Insider Messenger
+# Insdr Messenger
 
 Automatic message sending system that processes messages from PostgreSQL and sends them via webhook every 2 minutes.
 
@@ -24,26 +24,14 @@ Automatic message sending system that processes messages from PostgreSQL and sen
 ### 1. Clone and Run
 ```bash
 # Clone repository
-git clone https://github.com/ppopeskul/insider-messenger.git
-cd insider-messenger
+git clone https://github.com/ppopeskul/insdr-messenger.git
+cd insdr-messenger
 
-# Start all services
-docker-compose up -d
+make dev
+make db-seed
 
-# Wait for services to be healthy
-docker-compose ps
-```
-
-### 2. Add Test Messages
-```bash
-# Use provided seed script
-cat scripts/seed_data.sql | docker-compose exec -T postgres psql -U insider -d insider_db
-
-# Or add custom messages
-docker-compose exec postgres psql -U insider -d insider_db -c "
-INSERT INTO messages (phone_number, content) VALUES 
-('+905551234567', 'Test message 1'),
-('+905551234568', 'Test message 2');"
+Webhook url: https://webhook.site/#!/view/6e479f4c-d00b-45fc-a0f6-22e8440a1861/
+Swagger url: http://localhost:8080/swagger/
 ```
 
 ### 3. Monitor System
@@ -61,7 +49,7 @@ docker-compose logs -f app
 ### What's Running?
 - **API Server**: http://localhost:8080
 - **Swagger UI**: http://localhost:8080/swagger/
-- **PostgreSQL**: localhost:5432 (user: insider, db: insider_db)
+- **PostgreSQL**: localhost:5432 (user: insdr, db: insdr_db)
 - **Redis**: localhost:6379
 - **Scheduler**: Automatically sends 2 messages every 2 minutes
 
@@ -71,7 +59,7 @@ The system follows Clean Architecture principles with clear separation of concer
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                     Insider Messenger                        │
+│                     Insdr Messenger                        │
 ├─────────────────────────────────────────────────────────────┤
 │  ┌──────────┐     ┌───────────┐     ┌─────────────┐       │
 │  │   HTTP   │────▶│ Business  │────▶│ Repository  │       │
@@ -158,7 +146,7 @@ CREATE TABLE messages (
 curl http://localhost:8080/health | jq .scheduler_status
 
 # Check pending messages
-docker-compose exec postgres psql -U insider -d insider_db \
+docker-compose exec postgres psql -U insdr -d insdr_db \
 -c "SELECT COUNT(*) FROM messages WHERE status='pending';"
 ```
 
@@ -320,9 +308,9 @@ server:
 database:
   host: postgres
   port: 5432
-  user: insider
+  user: insdr
   password: password
-  dbname: insider_db
+  dbname: insdr_db
   sslmode: disable
 
 # Redis configuration
@@ -418,7 +406,7 @@ make lint         # Run linter
 
 ### Project Structure
 ```
-insider-messenger/
+insdr-messenger/
 ├── cmd/server/         # Application entry point
 ├── internal/
 │   ├── api/           # Generated OpenAPI code
@@ -451,7 +439,7 @@ See [Architecture Documentation](docs/architecture.md#database-schema) for detai
 
 2. **Verify pending messages exist:**
    ```bash
-   docker-compose exec postgres psql -U insider -d insider_db \
+   docker-compose exec postgres psql -U insdr -d insdr_db \
    -c "SELECT COUNT(*) FROM messages WHERE status='pending';"
    ```
 
@@ -481,7 +469,7 @@ docker-compose ps postgres
 docker-compose logs postgres --tail 50
 
 # Test connection
-docker-compose exec postgres pg_isready -U insider
+docker-compose exec postgres pg_isready -U insdr
 ```
 
 ### Port Already in Use

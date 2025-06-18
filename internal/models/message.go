@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"time"
 
-	"github.com/ppopeskul/insider-messenger/internal/api"
+	"github.com/popeskul/insdr-messenger/internal/api"
 )
 
 type MessageStatus = api.MessageStatus

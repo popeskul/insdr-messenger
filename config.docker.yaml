@@ -6,9 +6,9 @@ server:
 database:
   host: postgres
   port: 5432
-  user: insider
+  user: insdr
   password: password
-  dbname: insider_db
+  dbname: insdr_db
   sslmode: disable
 
 redis:

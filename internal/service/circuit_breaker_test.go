@@ -6,9 +6,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ppopeskul/insider-messenger/internal/api"
-	"github.com/ppopeskul/insider-messenger/internal/config"
-	"github.com/ppopeskul/insider-messenger/internal/service"
+	"github.com/popeskul/insdr-messenger/internal/api"
+	"github.com/popeskul/insdr-messenger/internal/config"
+	"github.com/popeskul/insdr-messenger/internal/service"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"

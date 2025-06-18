@@ -7,8 +7,8 @@ import (
 
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	_ "github.com/lib/pq"
-	"github.com/ppopeskul/insider-messenger/internal/models"
-	"github.com/ppopeskul/insider-messenger/internal/repository"
+	"github.com/popeskul/insdr-messenger/internal/models"
+	"github.com/popeskul/insdr-messenger/internal/repository"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

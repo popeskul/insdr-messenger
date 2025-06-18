@@ -2,15 +2,15 @@ services:
   postgres:
     image: postgres:15-alpine
     environment:
-      POSTGRES_USER: insider
+      POSTGRES_USER: insdr
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: insider_db
+      POSTGRES_DB: insdr_db
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U insider"]
+      test: ["CMD-SHELL", "pg_isready -U insdr"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -41,16 +41,16 @@ services:
     environment:
       DATABASE_HOST: postgres
       DATABASE_PORT: 5432
-      DATABASE_USER: insider
+      DATABASE_USER: insdr
       DATABASE_PASSWORD: password
-      DATABASE_DBNAME: insider_db
+      DATABASE_DBNAME: insdr_db
       REDIS_HOST: redis
       REDIS_PORT: 6379
     volumes:
       - ./config.docker.yaml:/app/config.yaml:ro
       - ./migrations:/app/migrations:ro
     restart: unless-stopped
-    command: ["/app/insider-messenger"]
+    command: ["/app/insdr-messenger"]
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 10s

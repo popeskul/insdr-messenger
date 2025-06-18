@@ -1,4 +1,4 @@
-module github.com/ppopeskul/insider-messenger
+module github.com/popeskul/insdr-messenger
 
 go 1.23.0
 

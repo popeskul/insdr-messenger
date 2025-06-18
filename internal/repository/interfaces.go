@@ -1,6 +1,6 @@
 package repository
 
-import "github.com/ppopeskul/insider-messenger/internal/models"
+import "github.com/popeskul/insdr-messenger/internal/models"
 
 // Repository interface defines all repository operations.
 type Repository interface {

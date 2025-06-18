@@ -6,8 +6,8 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/ppopeskul/insider-messenger/internal/config"
-	"github.com/ppopeskul/insider-messenger/internal/scheduler"
+	"github.com/popeskul/insdr-messenger/internal/config"
+	"github.com/popeskul/insdr-messenger/internal/scheduler"
 )
 
 type schedulerService struct {

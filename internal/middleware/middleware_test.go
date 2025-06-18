@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ppopeskul/insider-messenger/internal/middleware"
+	"github.com/popeskul/insdr-messenger/internal/middleware"
 	"go.uber.org/zap"
 	"golang.org/x/time/rate"
 )
